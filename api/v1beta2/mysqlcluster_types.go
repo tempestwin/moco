@@ -341,6 +341,8 @@ type OverwriteContainer struct {
 	// +kubebuilder:validation:Required
 	Name OverwriteableContainerName `json:"name"`
 
+	Image *string `json:"image,omitempty"`
+
 	// Resources is the container resource to be overwritten.
 	// +optional
 	Resources *ResourceRequirementsApplyConfiguration `json:"resources,omitempty"`

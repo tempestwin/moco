@@ -355,6 +355,9 @@ func updateContainerWithOverwriteContainers(cluster *mocov1beta2.MySQLCluster, c
 			if overwrite.Resources != nil {
 				container.WithResources((*corev1ac.ResourceRequirementsApplyConfiguration)(overwrite.Resources))
 			}
+			if overwrite.Image != nil {
+				container.WithImage(*overwrite.Image)
+			}
 		}
 	}
 }
