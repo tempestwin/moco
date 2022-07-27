@@ -308,9 +308,6 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 		corev1ac.VolumeMount().
 			WithName(constants.MySQLInitConfVolumeName).
 			WithMountPath(constants.MySQLInitConfPath),
-		corev1ac.VolumeMount().
-			WithName(constants.MySQLConfVolumeName).
-			WithMountPath(constants.MySQLConfPath),
 	).WithResources(
 		corev1ac.ResourceRequirements().
 			WithRequests(corev1.ResourceList{
@@ -345,6 +342,9 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 		corev1ac.VolumeMount().
 			WithName(constants.MySQLInitConfVolumeName).
 			WithMountPath(constants.MySQLInitConfPath),
+		corev1ac.VolumeMount().
+			WithName(constants.MySQLConfVolumeName).
+			WithMountPath(constants.MySQLConfPath),
 	)
 	updateContainerWithSecurityContext(c2)
 	initContainers = append(initContainers, c2)
