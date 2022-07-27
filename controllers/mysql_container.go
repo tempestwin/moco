@@ -326,10 +326,8 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 	var initContainers []*corev1ac.ContainerApplyConfiguration
 	// init mysql database
 	c2 := corev1ac.Container()
-	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand(constants.InitMySQLDataBaseCommand,
-		"--data-dir="+constants.MySQLDataPath,
-		"--basedir="+constants.MySQLBasePath,
-		"--initialize-insecure",
+	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand("/bin/bash", "-c",
+		"[ ! -f /var/lib/mysql/moco-initialized ] && touch /var/lib/mysql/moco-initialized && mysqld --data-dir=/var/lib/mysql/data --initialize-insecure",
 	).WithVolumeMounts(
 		corev1ac.VolumeMount().
 			WithName(constants.MySQLDataVolumeName).
