@@ -55,7 +55,7 @@ const (
 // command names
 const (
 	InitCommand              = "moco-init"
-	InitMySQLDataBaseCommand = "mysqld --initialize-insecure"
+	InitMySQLDataBaseCommand = "mysqld"
 )
 
 // PreStop sleep duration

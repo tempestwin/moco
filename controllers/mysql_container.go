@@ -330,6 +330,7 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand(constants.InitMySQLDataBaseCommand,
 		"--data-dir="+constants.MySQLDataPath,
 		"--basedir="+constants.MySQLBasePath,
+		"--initialize-insecure",
 	).WithVolumeMounts(
 		corev1ac.VolumeMount().
 			WithName(constants.MySQLDataVolumeName).
