@@ -330,10 +330,12 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand(constants.InitMySQLDataBaseCommand,
 		"--defaults-file=/etc/mysql/my.cnf",
 		"--user=mysql",
-		"--initialize-insecure",
 	).WithEnv(
 		corev1ac.EnvVar().
 			WithName("MYSQL_INITIALIZE_ONLY").
+			WithValue("1"),
+		corev1ac.EnvVar().
+			WithName("MYSQL_ALLOW_EMPTY_PASSWORD").
 			WithValue("1"),
 	).WithVolumeMounts(
 		corev1ac.VolumeMount().
