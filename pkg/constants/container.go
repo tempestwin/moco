@@ -4,6 +4,7 @@ package constants
 const (
 	AgentContainerName             = "agent"
 	InitContainerName              = "moco-init"
+	InitMySQLDataContainerName     = "moco-init-mysql-data"
 	MysqldContainerName            = "mysqld"
 	SlowQueryLogAgentContainerName = "slow-log"
 	ExporterContainerName          = "mysqld-exporter"
@@ -53,7 +54,8 @@ const (
 
 // command names
 const (
-	InitCommand = "moco-init"
+	InitCommand              = "moco-init"
+	InitMySQLDataBaseCommand = "mysqld --initialize-insecure"
 )
 
 // PreStop sleep duration

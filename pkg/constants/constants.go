@@ -4,6 +4,8 @@ const (
 	// MySQLDataPath is the path of MySQL data dir.
 	MySQLDataPath = "/var/lib/mysql"
 
+	MySQLBasePath = "/usr/local/mysql"
+
 	// MySQLConfPath is the path of MySQL conf dir.
 	MySQLConfPath = "/etc/mysql"
 

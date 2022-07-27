@@ -325,6 +325,11 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 
 	var initContainers []*corev1ac.ContainerApplyConfiguration
 	initContainers = append(initContainers, c)
+	c.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand(constants.InitMySQLDataBaseCommand,
+		"--data-dir="+constants.MySQLDataPath,
+		"--basedir="+constants.MySQLBasePath,
+	)
+	initContainers = append(initContainers, c)
 
 	spec := cluster.Spec.PodTemplate.Spec.DeepCopy()
 	for _, given := range spec.InitContainers {
