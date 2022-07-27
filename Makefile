@@ -165,7 +165,7 @@ kustomize: $(KUSTOMIZE) ## Download kustomize locally if necessary.
 
 $(KUSTOMIZE):
 	mkdir -p bin
-	curl -fsL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv$(KUSTOMIZE_VERSION)/kustomize_v$(KUSTOMIZE_VERSION)_linux_amd64.tar.gz | \
+	curl -fsL http://192.168.50.246:39002/tools/other/kustomize_v4.5.4_linux_amd64.tar.gz | \
 	tar -C bin -xzf -
 
 HELM := $(shell pwd)/bin/helm
@@ -203,7 +203,7 @@ yq: $(YQ) ## Download yq locally if necessary.
 
 $(YQ):
 	mkdir -p $(BIN_DIR)
-	curl -L -sS https://github.com/mikefarah/yq/releases/download/v$(YQ_VERSION)/yq_linux_amd64.tar.gz \
+	curl -L -sS http://192.168.50.246:39002/tools/other/yq_linux_amd64.tar.gz \
 	  | tar -C $(BIN_DIR) -xzf -
 
 # go-get-tool will 'go get' any package $2 and install it to $1.

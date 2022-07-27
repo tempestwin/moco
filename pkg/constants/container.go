@@ -47,8 +47,8 @@ const (
 
 // UID/GID
 const (
-	ContainerUID = 10000
-	ContainerGID = 10000
+	ContainerUID = 27
+	ContainerGID = 27
 )
 
 // command names
