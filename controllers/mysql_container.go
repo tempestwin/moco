@@ -324,7 +324,6 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 	updateContainerWithOverwriteContainers(cluster, c)
 
 	var initContainers []*corev1ac.ContainerApplyConfiguration
-	initContainers = append(initContainers, c)
 	// init mysql database
 	c2 := corev1ac.Container()
 	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand(constants.InitMySQLDataBaseCommand,
@@ -341,6 +340,7 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 	)
 	updateContainerWithSecurityContext(c2)
 	initContainers = append(initContainers, c2)
+	initContainers = append(initContainers, c)
 
 	spec := cluster.Spec.PodTemplate.Spec.DeepCopy()
 	for _, given := range spec.InitContainers {
