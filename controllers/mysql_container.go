@@ -327,9 +327,8 @@ func (r *MySQLClusterReconciler) makeV1InitContainer(cluster *mocov1beta2.MySQLC
 	initContainers = append(initContainers, c)
 	// init mysql database
 	c2 := corev1ac.Container()
-	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithCommand(constants.InitMySQLDataBaseCommand,
+	c2.WithName(constants.InitMySQLDataContainerName).WithImage(image).WithArgs(
 		"--defaults-file=/etc/mysql/my.cnf",
-		"--user=mysql",
 	).WithEnv(
 		corev1ac.EnvVar().
 			WithName("MYSQL_INITIALIZE_ONLY").
