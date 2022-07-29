@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	mocov1beta2 "github.com/cybozu-go/moco/api/v1beta2"
 	"github.com/cybozu-go/moco/pkg/constants"
@@ -30,6 +31,10 @@ func switchover(ctx context.Context, name string) error {
 	if cluster.Spec.Replicas == 1 {
 		return errors.New("single-instance cluster is not able to switch")
 	}
+
+	fmt.Printf("cluster.Status.CurrentPrimaryIndex %d", cluster.Status.CurrentPrimaryIndex)
+
+	fmt.Println("cluster.Status", cluster.Status)
 
 	podName := cluster.PodName(cluster.Status.CurrentPrimaryIndex)
 	pod := &corev1.Pod{}
