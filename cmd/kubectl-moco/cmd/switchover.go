@@ -32,10 +32,6 @@ func switchover(ctx context.Context, name string) error {
 		return errors.New("single-instance cluster is not able to switch")
 	}
 
-	fmt.Printf("cluster.Status.CurrentPrimaryIndex %d", cluster.Status.CurrentPrimaryIndex)
-
-	fmt.Println("cluster.Status", cluster.Status)
-
 	podName := cluster.PodName(cluster.Status.CurrentPrimaryIndex)
 	pod := &corev1.Pod{}
 	if err := kubeClient.Get(ctx, types.NamespacedName{Namespace: namespace, Name: podName}, pod); err != nil {
@@ -45,6 +41,9 @@ func switchover(ctx context.Context, name string) error {
 	if pod.Annotations == nil {
 		pod.Annotations = make(map[string]string)
 	}
+
+	fmt.Println("primary status", podName, pod.Annotations)
+
 	pod.Annotations[constants.AnnDemote] = "true"
 
 	return kubeClient.Update(ctx, pod)
