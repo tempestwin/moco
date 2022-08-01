@@ -48,6 +48,8 @@ type Operator interface {
 	// For asynchronous replication, this method should not be called.
 	ConfigurePrimary(ctx context.Context, waitForCount int) error
 
+	ConfigurePrimaryDisableRplSemiSyncMaster(ctx context.Context) error
+
 	// StopReplicaIOThread executes `STOP SLAVE IO_THREAD`.
 	StopReplicaIOThread(context.Context) error
 

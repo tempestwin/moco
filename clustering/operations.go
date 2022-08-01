@@ -393,16 +393,24 @@ func (p *managerProcess) configurePrimary(ctx context.Context, ss *StatusSet) (r
 			return false, err
 		}
 	}
-
 	if ss.Cluster.Spec.Replicas == 1 {
 		return
 	}
+	// only one pod avaiable, skip
+	pod_num := ss.schedulableMySQL()
 
 	waitFor := int(ss.Cluster.Spec.Replicas / 2)
-	if !pst.GlobalVariables.SemiSyncMasterEnabled || pst.GlobalVariables.WaitForSlaveCount != waitFor {
-		redo = true
-		p.log.Info("enable semi-sync primary")
-		if err := op.ConfigurePrimary(ctx, waitFor); err != nil {
+	if !pst.GlobalVariables.SemiSyncMasterEnabled {
+		if pod_num > 1 && pst.GlobalVariables.WaitForSlaveCount != waitFor {
+			redo = true
+			p.log.Info("enable semi-sync primary", "pod num", pod_num, "waitFor pod num ", waitFor)
+			if err := op.ConfigurePrimary(ctx, waitFor); err != nil {
+				return false, err
+			}
+		}
+	} else if pod_num == 1 {
+		p.log.Info("disable semi-sync primary without no any replica node")
+		if err := op.ConfigurePrimaryDisableRplSemiSyncMaster(ctx); err != nil {
 			return false, err
 		}
 	}

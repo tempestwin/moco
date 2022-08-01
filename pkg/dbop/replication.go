@@ -39,6 +39,13 @@ func (o *operator) ConfigurePrimary(ctx context.Context, waitForCount int) error
 	return nil
 }
 
+func (o *operator) ConfigurePrimaryDisableRplSemiSyncMaster(ctx context.Context) error {
+	if _, err := o.db.ExecContext(ctx, "SET GLOBAL rpl_semi_sync_master_enabled=OFF"); err != nil {
+		return fmt.Errorf("failed to disable semi-sync primary: %w", err)
+	}
+	return nil
+}
+
 func (o *operator) StopReplicaIOThread(ctx context.Context) error {
 	if _, err := o.db.ExecContext(ctx, `STOP SLAVE IO_THREAD`); err != nil {
 		return fmt.Errorf("failed to stop replica IO thread: %w", err)

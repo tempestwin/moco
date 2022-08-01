@@ -43,6 +43,10 @@ func (o NopOperator) ConfigurePrimary(ctx context.Context, waitForCount int) err
 	return ErrNop
 }
 
+func (o NopOperator) ConfigurePrimaryDisableRplSemiSyncMaster(ctx context.Context) error {
+	return ErrNop
+}
+
 func (o NopOperator) StopReplicaIOThread(context.Context) error {
 	return ErrNop
 }

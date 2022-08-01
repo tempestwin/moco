@@ -102,6 +102,16 @@ func (ss *StatusSet) Close() {
 	}
 }
 
+func (ss *StatusSet) schedulableMySQL() int {
+	pod_num := 0
+	for _, ist := range ss.MySQLStatus {
+		if ist != nil {
+			pod_num++
+		}
+	}
+	return pod_num
+}
+
 // DecideState decides the ClusterState and set it to `ss.State`.
 // It may also set `ss.NeedSwitch` and `ss.Candidate` for switchover.
 func (ss *StatusSet) DecideState() {
@@ -466,7 +476,7 @@ func isFailed(ss *StatusSet) bool {
 		okReplicas++
 	}
 
-	return okReplicas > (int(ss.Cluster.Spec.Replicas) / 2)
+	return okReplicas >= (int(ss.Cluster.Spec.Replicas) / 2)
 }
 
 func isLost(ss *StatusSet) bool {
