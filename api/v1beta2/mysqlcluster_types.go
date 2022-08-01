@@ -146,9 +146,9 @@ func (s MySQLClusterSpec) validateCreate() field.ErrorList {
 	}
 
 	pp = p.Child("replicas")
-	if s.Replicas%2 == 0 {
-		allErrs = append(allErrs, field.Invalid(pp, s.Replicas, "replicas must be a positive odd number"))
-	}
+	// if s.Replicas%2 == 0 {
+	// 	allErrs = append(allErrs, field.Invalid(pp, s.Replicas, "replicas must be a positive odd number"))
+	// }
 	if s.Replicas <= 0 {
 		allErrs = append(allErrs, field.Invalid(pp, s.Replicas, "replicas must be a positive integer"))
 	}
