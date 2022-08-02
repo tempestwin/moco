@@ -196,6 +196,7 @@ func (p *managerProcess) failover(ctx context.Context, ss *StatusSet) error {
 	time.Sleep(100 * time.Millisecond)
 	candidates := make([]*dbop.MySQLInstanceStatus, len(ss.MySQLStatus))
 	var op dbop.Operator
+	forceCandidate := -1
 	for i, ist := range ss.MySQLStatus {
 		if i == ss.Primary {
 			continue
@@ -211,14 +212,19 @@ func (p *managerProcess) failover(ctx context.Context, ss *StatusSet) error {
 		if err != nil {
 			return fmt.Errorf("failed to recheck the status of instance %d: %w", i, err)
 		}
+		if forceCandidate == -1 {
+			forceCandidate = i
+		}
 		candidates[i] = newStatus
 	}
 
 	candidate, err := op.FindTopRunner(ctx, candidates)
 	if err != nil {
 		p.log.Info("failed to choose the next primary: , force select first candidate", err)
-		candidate = 0
-		// return fmt.Errorf("failed to choose the next primary: %w", err)
+		if forceCandidate == -1 {
+			return fmt.Errorf("failed to choose the next primary with no any force candidater and find top runner error: %w", err)
+		}
+		candidate = forceCandidate
 	}
 	ss.Candidate = candidate
 
